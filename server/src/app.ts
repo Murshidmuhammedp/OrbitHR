@@ -6,9 +6,9 @@ import dotenv from "dotenv";
 // import logger from "./middlewares/logger";
 // import corsOptions from "./config/corsOptions"; 
 
-// import { connectDB } from "./config/connectDB";
+import { connectDB } from "./config/connectDB";
 
-// connectDB();
+connectDB();
 
 const app = express();
 
