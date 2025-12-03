@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import "colors";
 
-export const connectDB = async () => {
+export const connectDB = async (): Promise<void> => {
     try {
         if (process.env.MONGODB_URL) {
             await mongoose.connect(process.env.MONGODB_URL);
@@ -12,4 +12,4 @@ export const connectDB = async () => {
     } catch (error) {
         console.log("DB Connection failed:".red + error);
     }
-}
+};
