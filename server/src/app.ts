@@ -6,7 +6,7 @@ dotenv.config();
 // import logger from "./middlewares/logger";
 // import corsOptions from "./config/corsOptions"; 
 
-import { connectDB } from "./config/connectDB";
+import { connectDB } from "./config/db";
 
 connectDB();
 
