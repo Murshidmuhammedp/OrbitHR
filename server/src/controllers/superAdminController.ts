@@ -3,7 +3,7 @@ import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { User } from "../models/User";
 import { sendNewUserMail } from "../utils/mailer";
-import { AuthRequest } from "../middleware/authMiddleware";
+import { AuthRequest } from "../middlewares/authMiddleware";
 import { HttpStatusCode } from "../constants/enums";
 
 export const createHR = async (req: AuthRequest, res: Response) => {
@@ -13,7 +13,7 @@ export const createHR = async (req: AuthRequest, res: Response) => {
 
         if (!name || !email || !phone_Number) {
             return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Name and email are required" });
-        }
+        };
 
         const exist = await User.findOne({ email });
         if (exist) {
