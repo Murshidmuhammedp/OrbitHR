@@ -1,29 +1,31 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    secure: false,
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+    }
 });
 
 interface NewUserMailProps {
-  name: string;
-  email: string;
-  password: string;
-  roleLabel: string;
+    name: string;
+    email: string;
+    phone_Number: number;
+    password: string;
+    roleLabel: string;
 }
 
 export const sendNewUserMail = async ({
-  name,
-  email,
-  password,
-  roleLabel
+    name,
+    email,
+    phone_Number,
+    password,
+    roleLabel
 }: NewUserMailProps) => {
-  const html = `
+    const html = `
     <p>Hi <strong>${name}</strong>,</p>
     <p>Your <strong>${roleLabel}</strong> account has been created in the HRMS system.</p>
     <p><b>Login URL:</b> ${process.env.APP_BASE_URL}/login</p>
@@ -33,10 +35,10 @@ export const sendNewUserMail = async ({
     <p>Best regards,<br/>HRMS System</p>
   `;
 
-  await transporter.sendMail({
-    from: `"HRMS System" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: `${roleLabel} account created`,
-    html
-  });
+    await transporter.sendMail({
+        from: `"HRMS System" <${process.env.SMTP_USER}>`,
+        to: email,
+        subject: `${roleLabel} account created`,
+        html
+    });
 };

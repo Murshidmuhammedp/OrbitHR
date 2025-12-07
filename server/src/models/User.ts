@@ -5,14 +5,14 @@ export type UserRole = "superadmin" | "hr" | "employee";
 export interface IUser extends Document {
     name: string;
     email: string;
-    organization_Name: string;
+    // organization_Name: string;
     phone_Number: number;
     password: string;
     role: UserRole;
     isActive: boolean;
 }
 
-const adminSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser>(
     {
         name: {
             type: String, required: true
@@ -20,9 +20,9 @@ const adminSchema = new Schema<IUser>(
         email: {
             type: String, required: true, unique: true
         },
-        organization_Name: {
-            type: String, required: true
-        },
+        // organization_Name: {
+        //     type: String, required: true
+        // },
         phone_Number: {
             type: Number, required: true
         },
@@ -41,4 +41,4 @@ const adminSchema = new Schema<IUser>(
     { timestamps: true }
 );
 
-export const Admin = model<IUser>("Admin", adminSchema);
+export const User = model<IUser>("User", userSchema);
