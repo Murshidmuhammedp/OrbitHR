@@ -5,6 +5,7 @@ dotenv.config();
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes"
 import superAdminRoutes from "./routes/superAdminRoutes"
+import { errorHandler } from "./middlewares/errorHandler";
 
 // import cookieParser from "cookie-parser";
 // import logger from "./middlewares/logger";
@@ -24,6 +25,6 @@ app.use("/api/auth", authRoutes);
 app.use("api/superadmin", superAdminRoutes);
 
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export default app;
