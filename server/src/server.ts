@@ -13,22 +13,27 @@ import 'colors';
 // import logger from "./middlewares/logger";
 // import corsOptions from "./config/corsOptions"; 
 
-connectDB();
-
 const app = express();
+
+connectDB();
 
 app.use(cors());
 app.use(express.json());
 // app.use(cookieParser());
 // app.use(logger);
 
+app.get("/test", (req, res) => {
+    res.send("API working");
+});
+
+
 
 
 app.use("/api/auth", authRoutes);
-app.use("api/superadmin", superAdminRoutes);
+// app.use("/api/superadmin", superAdminRoutes);
 
 
-app.use(errorHandler);
+// app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

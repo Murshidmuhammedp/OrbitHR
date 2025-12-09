@@ -6,6 +6,6 @@ const router = Router();
 
 router.post("/superadmin/register", registerSuperAdmin);
 
-router.post("/login", login);
+// router.post("/login", login);
 
 export default router;

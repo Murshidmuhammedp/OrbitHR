@@ -10,6 +10,7 @@ import { HttpStatusCode } from "../constants/enums";
  */
 
 export const registerSuperAdmin = async (req: Request, res: Response) => {
+    console.log("asdfghjk")
     try {
         const { name, email, organization_Name, phone_Number, password } = req.body;
 
