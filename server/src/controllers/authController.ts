@@ -10,7 +10,6 @@ import { HttpStatusCode } from "../constants/enums";
  */
 
 export const registerSuperAdmin = async (req: Request, res: Response) => {
-    console.log("asdfghjk")
     try {
         const { name, email, organization_Name, phone_Number, password } = req.body;
 
@@ -53,6 +52,10 @@ export const registerSuperAdmin = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+        
+        if (!email && !password) {
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Email and password are required" });
+        }
 
         const user = await User.findOne({ email });
         if (!user)

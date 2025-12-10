@@ -12,7 +12,7 @@ export const createHR = async (req: AuthRequest, res: Response) => {
         const { name, email, phone_Number } = req.body;
 
         if (!name || !email || !phone_Number) {
-            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Name and email are required" });
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Name, email and Phone Number are required" });
         };
 
         const exist = await User.findOne({ email });

@@ -13,9 +13,10 @@ export interface AuthRequest extends Request {
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
-    if (!token) {
 
-        return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized" });
+    if (!token) {     
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized: No token provided" });
+        console.log("ethndoo")
     }
 
     try {
@@ -23,6 +24,7 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
 
         if (!decoded) {
+                    console.log("ethndoo 2")
 
             return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized" });
         }
@@ -30,7 +32,7 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
         next();
     } catch (error) {
         console.log("Next is calling =======>", error);
-        return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized" });
+        return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized: Invalid token" });
     }
 };
 
