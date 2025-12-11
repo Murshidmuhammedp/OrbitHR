@@ -5,6 +5,7 @@ dotenv.config();
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes"
 import superAdminRoutes from "./routes/superAdminRoutes"
+import hrRoutes from "./routes/hrRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 import 'colors';
 
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/superadmin", superAdminRoutes);
+app.use("/api/hr",hrRoutes);
 
 
 app.use(errorHandler);
