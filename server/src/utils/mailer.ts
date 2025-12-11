@@ -1,9 +1,11 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT) || 587,
-    secure: false,
+    secure: true,
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
@@ -34,11 +36,16 @@ export const sendNewUserMail = async ({
     <p>Please log in and change your password immediately after first login.</p>
     <p>Best regards,<br/>HRMS System</p>
   `;
+    try {
+        await transporter.sendMail({
+            from: `"HRMS System" <${process.env.SMTP_USER}>`,
+            to: email,
+            subject: `${roleLabel} Account Created`,
+            html
+        });
+        console.log("Email Sent Successfully");
+    } catch (error) {
+        console.log("Email Error:", error);
+    }
 
-    await transporter.sendMail({
-        from: `"HRMS System" <${process.env.SMTP_USER}>`,
-        to: email,
-        subject: `${roleLabel} account created`,
-        html
-    });
 };

@@ -13,19 +13,13 @@ export interface AuthRequest extends Request {
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
-
-    if (!token) {     
+    if (!token) {
         return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized: No token provided" });
-        console.log("ethndoo")
     }
-
+    
     try {
-
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as JwtPayload;
-
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as JwtPayload;
         if (!decoded) {
-                    console.log("ethndoo 2")
-
             return res.status(HttpStatusCode.UNAUTHORIZED).json({ message: "Unauthorized" });
         }
         req.user = decoded;
