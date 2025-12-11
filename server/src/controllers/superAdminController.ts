@@ -5,10 +5,14 @@ import { User } from "../models/User";
 import { sendNewUserMail } from "../utils/mailer";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { HttpStatusCode } from "../constants/enums";
+import { hrValidationSchema } from "../validators/userValidation";
 
 export const createHR = async (req: AuthRequest, res: Response) => {
     try {
-        // req.user is already checked by middleware if needed
+        const { error } = hrValidationSchema.validate(req.body);
+        if (error) {
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: error.details[0].message });
+        }
         const { name, email, phone_Number } = req.body;
 
         if (!name || !email || !phone_Number) {
@@ -21,7 +25,7 @@ export const createHR = async (req: AuthRequest, res: Response) => {
         }
 
         // generate a random temp password
-        const tempPassword = crypto.randomBytes(4).toString("hex"); // like 'a3f9c2b1'
+        const tempPassword = crypto.randomBytes(4).toString("hex");
         const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
         const hrUser = await User.create({

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 import { JwtPayload } from "../middlewares/authMiddleware";
 import { HttpStatusCode } from "../constants/enums";
+import { loginValidationSchema, userValidationSchema } from "../validators/userValidation";
 
 /**
  * SUPER ADMIN REGISTRATION
@@ -11,6 +12,11 @@ import { HttpStatusCode } from "../constants/enums";
 
 export const registerSuperAdmin = async (req: Request, res: Response) => {
     try {
+        const { error } = userValidationSchema.validate(req.body);
+        if (error) {
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: error.details[0].message });
+        }
+
         const { name, email, organization_Name, phone_Number, password } = req.body;
 
         const existing = await User.findOne({ email });
@@ -29,7 +35,7 @@ export const registerSuperAdmin = async (req: Request, res: Response) => {
             role: "superadmin"
         });
 
-        return res.status(201).json({
+        return res.status(HttpStatusCode.CREATED).json({
             message: "Super admin registered successfully",
             superAdmin: {
                 id: superAdmin._id,
@@ -41,7 +47,7 @@ export const registerSuperAdmin = async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error("registerSuperAdmin error:", error);
-        return res.status(500).json({ message: "Server error" });
+        return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: "Server error" });
     }
 };
 
@@ -51,8 +57,12 @@ export const registerSuperAdmin = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     try {
+        const { error } = loginValidationSchema.validate(req.body);
+        if (error) {
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: error.details[0].message });
+        }
         const { email, password } = req.body;
-        
+
         if (!email && !password) {
             return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Email and password are required" });
         }
@@ -63,10 +73,10 @@ export const login = async (req: Request, res: Response) => {
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
-            return res.status(400).json({ message: "Invalid email or password" });
+            return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Invalid email or password" });
 
         if (!user.isActive)
-            return res.status(403).json({ message: "Account is inactive" });
+            return res.status(HttpStatusCode.FORBIDDEN).json({ message: "Account is inactive" });
 
         const payload: JwtPayload = {
             userId: user._id.toString(),
@@ -91,6 +101,6 @@ export const login = async (req: Request, res: Response) => {
         });
     } catch (error) {
         console.error("login error:", error);
-        return res.status(500).json({ message: "Server error" });
+        return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: "Server error" });
     }
 };
