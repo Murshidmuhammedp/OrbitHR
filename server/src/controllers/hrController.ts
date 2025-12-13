@@ -78,7 +78,7 @@ export const getEmployees = async (req: AuthRequest, res: Response) => {
             .populate("user", "name email role")
             .sort({ createdAt: -1 });
 
-        return res.json({ employees });
+        return res.json({message:"Data Fetched", employees });
     } catch (error) {
         console.log("getEmployees error:", error);
         return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: "Server error" });

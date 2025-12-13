@@ -8,5 +8,5 @@ export const employeeValidationSchema = Joi.object({
     }),
     department:Joi.string().required(),
     designation:Joi.string().required(),
-    salary:Joi.string().required()
+    salary:Joi.number().required()
 });

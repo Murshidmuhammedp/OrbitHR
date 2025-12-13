@@ -30,7 +30,7 @@ export const sendNewUserMail = async ({
     const html = `
     <p>Hi <strong>${name}</strong>,</p>
     <p>Your <strong>${roleLabel}</strong> account has been created in the HRMS system.</p>
-    <p><b>Login URL:</b> ${process.env.APP_BASE_URL}/login</p>
+    <p><b>Login URL:</b> ${process.env.APP_BASE_URL}/api/auth/login</p>
     <p><b>Username (Email):</b> ${email}</p>
     <p><b>Temporary Password:</b> ${password}</p>
     <p>Please log in and change your password immediately after first login.</p>
