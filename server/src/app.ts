@@ -3,9 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import { connectDB } from "./config/db";
-import authRoutes from "./routes/authRoutes"
-import superAdminRoutes from "./routes/superAdminRoutes"
+import authRoutes from "./routes/authRoutes";
+import superAdminRoutes from "./routes/superAdminRoutes";
 import hrRoutes from "./routes/hrRoutes";
+import employeeRoutes from "./routes/employeeRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 import 'colors';
 
@@ -26,8 +27,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/superadmin", superAdminRoutes);
-app.use("/api/hr",hrRoutes);
-
+app.use("/api/hr", hrRoutes);
+app.use("/api/employee", employeeRoutes);
 
 app.use(errorHandler);
 
