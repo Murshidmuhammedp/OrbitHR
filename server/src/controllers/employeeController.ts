@@ -85,7 +85,7 @@ export const getMyLeaves = async (req: AuthRequest, res: Response) => {
 
   const leaves = await Leave.find({ user: userId }).sort({ createdAt: -1 });
 
-  res.json({ leaves });
+  res.status(200).json({message:"Leave Data Fetched", leaves });
 };
 
 
