@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Leave } from "../models/Leave";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { sendLeaveStatusMail } from "../utils/mailer";
+import { IUser } from "../models/User";
 
 export const getAllLeaves = async (req: AuthRequest, res: Response) => {
   try {
@@ -26,7 +27,7 @@ export const updateLeaveStatus = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ message: "Invalid status" });
     }
 
-    const leave = await Leave.findById(leaveId).populate("user", "name email");
+    const leave = await Leave.findById(leaveId).populate<{ user: IUser }>("user", "name email");
     if (!leave) {
       return res.status(404).json({ message: "Leave request not found" });
     }

@@ -1,7 +1,13 @@
 import { Schema, model, Document, Types } from "mongoose";
 
+interface IUser {
+  _id: Types.ObjectId;
+  name: string;
+  email: string;
+}
+
 export interface ILeave extends Document {
-  user: Types.ObjectId;
+  user: Types.ObjectId | IUser;
   fromDate: Date;
   toDate: Date;
   reason: string;
