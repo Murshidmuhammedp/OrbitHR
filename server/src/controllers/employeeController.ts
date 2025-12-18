@@ -4,6 +4,7 @@ import { User } from "../models/User";
 import { Employee } from "../models/Employee";
 import { Attendance } from "../models/Attendance";
 import { Leave } from "../models/Leave";
+import { HttpStatusCode } from "../constants/enums";
 
 export const getMyProfile = async (req: AuthRequest, res: Response) => {
   const userId = req.user!.userId;
@@ -21,7 +22,7 @@ export const clockIn = async (req: AuthRequest, res: Response) => {
 
   const already = await Attendance.findOne({ user: userId, date: today });
   if (already?.clockIn) {
-    return res.status(400).json({ message: "Already clocked in today" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Already clocked in today" });
   }
 
   const attendance =
@@ -44,7 +45,7 @@ export const clockOut = async (req: AuthRequest, res: Response) => {
 
   const attendance = await Attendance.findOne({ user: userId, date: today });
   if (!attendance?.clockIn) {
-    return res.status(400).json({ message: "Clock-in first" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Clock-in first" });
   }
 
   attendance.clockOut = new Date();
@@ -64,7 +65,7 @@ export const applyLeave = async (req: AuthRequest, res: Response) => {
   const { fromDate, toDate, reason } = req.body;
 
   if (!fromDate || !toDate || !reason) {
-    return res.status(400).json({ message: "All fields required" });
+    return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "All fields required" });
   }
 
   const leave = await Leave.create({
@@ -74,7 +75,7 @@ export const applyLeave = async (req: AuthRequest, res: Response) => {
     reason
   });
 
-  res.status(201).json({
+  res.status(HttpStatusCode.CREATED).json({
     message: "Leave applied successfully",
     leave
   });
@@ -85,7 +86,7 @@ export const getMyLeaves = async (req: AuthRequest, res: Response) => {
 
   const leaves = await Leave.find({ user: userId }).sort({ createdAt: -1 });
 
-  res.status(200).json({message:"Leave Data Fetched", leaves });
+  res.status(HttpStatusCode.OK).json({ message: "Leave Data Fetched", leaves });
 };
 
 

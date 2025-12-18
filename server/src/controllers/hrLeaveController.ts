@@ -3,6 +3,7 @@ import { Leave } from "../models/Leave";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import { sendLeaveStatusMail } from "../utils/mailer";
 import { IUser } from "../models/User";
+import { HttpStatusCode } from "../constants/enums";
 
 export const getAllLeaves = async (req: AuthRequest, res: Response) => {
   try {
@@ -13,7 +14,7 @@ export const getAllLeaves = async (req: AuthRequest, res: Response) => {
     res.json({ leaves });
   } catch (error) {
     console.error("getAllLeaves error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: "Server error" });
   }
 };
 
@@ -24,12 +25,12 @@ export const updateLeaveStatus = async (req: AuthRequest, res: Response) => {
     const { status } = req.body; // approved | rejected
 
     if (!["approved", "rejected"].includes(status)) {
-      return res.status(400).json({ message: "Invalid status" });
+      return res.status(HttpStatusCode.BAD_REQUEST).json({ message: "Invalid status" });
     }
 
     const leave = await Leave.findById(leaveId).populate<{ user: IUser }>("user", "name email");
     if (!leave) {
-      return res.status(404).json({ message: "Leave request not found" });
+      return res.status(HttpStatusCode.NOT_FOUND).json({ message: "Leave request not found" });
     }
 
     leave.status = status;
@@ -50,6 +51,6 @@ export const updateLeaveStatus = async (req: AuthRequest, res: Response) => {
     });
   } catch (error) {
     console.error("updateLeaveStatus error:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({ message: "Server error" });
   }
 };
