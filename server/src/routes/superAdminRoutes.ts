@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { Router } from "express";
 import { createHR } from "../controllers/superAdminController";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import { requireRole } from "../middlewares/roles";

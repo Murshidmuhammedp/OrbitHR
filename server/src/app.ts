@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes";
 import superAdminRoutes from "./routes/superAdminRoutes";
 import hrRoutes from "./routes/hrRoutes";
 import employeeRoutes from "./routes/employeeRoutes";
+import hrLeaveRoutes from "./routes/hrLeaveRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 import 'colors';
 
@@ -29,6 +30,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/superadmin", superAdminRoutes);
 app.use("/api/hr", hrRoutes);
 app.use("/api/employee", employeeRoutes);
+app.use("/api/hr", hrLeaveRoutes);
 
 app.use(errorHandler);
 

@@ -20,6 +20,14 @@ interface NewUserMailProps {
     roleLabel: string;
 }
 
+interface LeaveStatusMailProps {
+    name: string;
+    email: string;
+    status: "approved" | "rejected";
+    fromDate: Date;
+    toDate: Date;
+}
+
 export const sendNewUserMail = async ({
     name,
     email,
@@ -48,4 +56,27 @@ export const sendNewUserMail = async ({
         console.log("Email Error:", error);
     }
 
+};
+
+export const sendLeaveStatusMail = async ({
+  name,
+  email,
+  status,
+  fromDate,
+  toDate
+}: LeaveStatusMailProps) => {
+  const html = `
+    <p>Hi <strong>${name}</strong>,</p>
+    <p>Your leave request has been <b>${status.toUpperCase()}</b>.</p>
+    <p><b>From:</b> ${new Date(fromDate).toDateString()}</p>
+    <p><b>To:</b> ${new Date(toDate).toDateString()}</p>
+    <p>If you have any questions, please contact HR.</p>
+    <p>Regards,<br/>HR Team</p>
+  `;
+
+  await transporter.sendMail({
+    to: email,
+    subject: `Leave Request ${status}`,
+    html
+  });
 };

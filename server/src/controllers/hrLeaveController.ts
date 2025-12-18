@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Leave } from "../models/Leave";
 import { AuthRequest } from "../middlewares/authMiddleware";
+import { sendLeaveStatusMail } from "../utils/mailer";
 
 export const getAllLeaves = async (req: AuthRequest, res: Response) => {
   try {
@@ -15,8 +16,6 @@ export const getAllLeaves = async (req: AuthRequest, res: Response) => {
   }
 };
 
-
-import { sendLeaveStatusMail } from "../utils/mailer";
 
 export const updateLeaveStatus = async (req: AuthRequest, res: Response) => {
   try {
