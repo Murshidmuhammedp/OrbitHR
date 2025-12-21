@@ -10,6 +10,7 @@ import employeeRoutes from "./routes/employeeRoutes";
 import hrLeaveRoutes from "./routes/hrLeaveRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 import 'colors';
+import corsOptions from "./config/corsOptions";
 
 
 // import cookieParser from "cookie-parser";
@@ -20,7 +21,7 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 // app.use(cookieParser());
 // app.use(logger);
