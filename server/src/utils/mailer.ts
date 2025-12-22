@@ -62,7 +62,7 @@ export const sendLeaveStatusMail = async ({
   name,
   email,
   status,
-  fromDate,
+  fromDate, 
   toDate
 }: LeaveStatusMailProps) => {
   const html = `
